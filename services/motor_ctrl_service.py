@@ -24,7 +24,7 @@ class MotorCtrlService(object):
         logging.debug("full spin maneuver!")
         self.stop()
         self.motor_left.forward(1)
-        self.motor_left.backward(1)
+        self.motor_right.backward(1)
         # time.sleep(2)
         # self.stop()
 
