@@ -6,6 +6,7 @@
 - python 3.5 (usually comes with raspbian)
 - git installed on raspbian
 - IDE addon FTP-Simple so you can develop on PC and push to RPI
+- account on https://www.cloudmqtt.com/ with valid topics configured
 
 
 ## Devices
@@ -15,3 +16,20 @@
 
 ## Circuit Diagram
 ![Circuit](https://github.com/AmirSasson/HomeBot/blob/dev/images/motors.png)
+
+
+## setup
+add a dev.json file with needed config or add environment variables on your PI
+```
+{
+    "mqtt-host": "XXXXXXX",
+    "mqtt-user": "XXXXX",
+    "mqtt-pwd": "XXXXXX",
+    "mqtt-port": XXXXX,
+    "bot-move-topic-name": "bot-move",
+    "WEB_PORT": 5000
+}
+```
+
+## RUN
+ssh to your RPI and run from the relevant folder run `python3 .`
