@@ -25,8 +25,8 @@ class MotorCtrlService(object):
         self.stop()
         self.motor_left.forward(1)
         self.motor_right.backward(1)
-        # time.sleep(2)
-        # self.stop()
+        time.sleep(2)
+        self.stop()
 
     def forward(self, speed=1):
         self.move()
