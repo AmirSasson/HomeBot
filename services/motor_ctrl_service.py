@@ -35,7 +35,8 @@ class MotorCtrlService(object):
         self.move(-1, -1)
 
     def move(self, speed_right=1, speed_left=1):
-        logging.debug(f"Moving motor: {speed_right} | {speed_left}")
+        logging.debug(
+            "Moving motor: %(speed_right)s  | %(speed_left)s" % locals())
         self.stop()
         if speed_right > 0:
             self.motor_right.forward(speed_right)
