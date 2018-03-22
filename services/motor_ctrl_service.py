@@ -21,11 +21,12 @@ class MotorCtrlService(object):
         self.full_spin()
 
     def full_spin(self):
+        logging.debug("full spin maneuver!")
         self.stop()
         self.motor_left.forward(1)
         self.motor_left.backward(1)
-        time.sleep(0.5)
-        self.stop()
+        time.sleep(2)
+        # self.stop()
 
     def forward(self, speed=1):
         self.move()
