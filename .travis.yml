@@ -1,0 +1,29 @@
+language: python
+sudo: required
+python:
+  - "3.6"
+addons:
+  apt:
+before_install:
+before_script:  
+cache: 
+  directories:
+    - $HOME/.pip-cache/
+install:
+  - pip install -r requirements.txt --cache-dir $HOME/.pip-cache  
+services:  
+env:
+  global:
+    - mqtt-host=test
+    - mqtt-user=test
+    - mqtt-pwd=test
+    - mqtt-port=1000    
+    - PYTHONPATH=$PYTHONPATH:$(pwd)
+script:
+  - pylint  web/ services/ common/ --msg-template='[{msg_id}]({line}) {msg}'  
+after_success:  
+notifications:
+  email: false  
+branches:
+  only:
+    - master    
