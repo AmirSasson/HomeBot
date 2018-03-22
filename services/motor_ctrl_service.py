@@ -60,7 +60,7 @@ class MotorCtrlService(object):
     def act(self, msg):
         """perform motor move"""
         logging.debug("acting !!! -> " + str(msg) + " left:" +
-                      str(msg.speed_left))
+                      str(msg["speed_left"]))
         self.move(
             speed_left=float(msg.speed_left),
             speed_right=float(msg.speed_right))
