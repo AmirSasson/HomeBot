@@ -25,7 +25,7 @@ class MotorCtrlService(object):
         self.stop()
         self.motor_left.forward(1)
         self.motor_left.backward(1)
-        time.sleep(2)
+        # time.sleep(2)
         # self.stop()
 
     def forward(self, speed=1):
@@ -35,6 +35,7 @@ class MotorCtrlService(object):
         self.move(-1, -1)
 
     def move(self, speed_right=1, speed_left=1):
+        logging.debug(f"Moving motor: {speed_right} | {speed_left}")
         self.stop()
         if speed_right > 0:
             self.motor_right.forward(speed_right)
