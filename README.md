@@ -14,4 +14,4 @@
 - Dual DC Stepper Motor Driver Contro (L9110S)
 
 ## Circuit Diagram
-![Circuit](https://github.com/AmirSasson/HomeBot/edit/dev/images/circut.png)
+![Circuit](https://github.com/AmirSasson/HomeBot/dev/images/circut.png)
