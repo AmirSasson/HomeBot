@@ -46,5 +46,5 @@ sudo modprobe bcm2835-v4l2` # to load it and create /dev/video0
 ```
 
 ```
-pi@raspberrypi:~/HomeBot $ ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://SOME-STREAM-SERVER/YOUR-SECRET # to stream video to web api to be broadcast to web sockets
+ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://SOME-STREAM-SERVER/YOUR-SECRET # to stream video to web api to be broadcast to web sockets
 ```
