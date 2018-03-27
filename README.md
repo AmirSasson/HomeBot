@@ -33,3 +33,9 @@ add a dev.json file with needed config or add environment variables on your PI
 
 ## RUN
 ssh to your RPI and run from the relevant folder run `python3 .`
+
+
+## optional (camera support)
+`sudo rpi-updateH`
+`sudo modprobe bcm2835-v4l2`
+`pi@raspberrypi:~/HomeBot $ ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://wfh-stream-server.herokuapp.com/YOUR-SECRET`
