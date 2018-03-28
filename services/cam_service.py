@@ -5,6 +5,8 @@ import settings as Config
 import time
 import math
 import subprocess
+from subprocess import Popen, PIPE
+import shlex
 
 
 # pylint: disable=too-few-public-methods
@@ -21,7 +23,7 @@ class CameraService(object):
         """perform speaj"""
         request_stream_url = msg["stream_url"]
         logging.debug("acting CAM VID !!! -> " + str(request_stream_url))
-        params = "ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 %(request_stream_url)s" % locals(
+        params = "sudo -S ffmpeg -f v4l2 -framerate 25 -video_size 300x255 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 300x255 -b:v 1000k -bf 0 %(request_stream_url)s" % locals(
         )
 
         if (not self.stream_url == request_stream_url) and self.proc:
@@ -31,11 +33,15 @@ class CameraService(object):
         if not (self.stream_url == request_stream_url and self.proc):
             self.stream_url = request_stream_url
             logging.debug("running ffmpeg " + params)
+
             self.proc = subprocess.Popen(
-                ['sudo', params],
-                shell=False,
-                stdin=None,
-                stdout=None,
-                stderr=None,
-                close_fds=True)
+                shlex.split(params),
+                # shell=True,
+                # stdin=None,
+                stdout=subprocess.PIPE,
+                # stderr=None,
+                # universal_newlines=True,
+                # close_fds=True
+            )
+            #out, err = self.proc.communicate('rasberry\n')
             # ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://SOME-STREAM-SERVER/YOUR-SECRET
