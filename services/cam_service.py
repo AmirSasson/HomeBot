@@ -1,11 +1,6 @@
 """FB Service Module"""
 import logging
-import settings as Config
-# from gpiozero import Motor
-import time
-import math
 import subprocess
-from subprocess import Popen, PIPE
 import shlex
 
 
