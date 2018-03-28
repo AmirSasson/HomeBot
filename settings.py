@@ -2,7 +2,11 @@
 from pconf import Pconf
 import json
 
-Pconf.defaults({'bot-move-topic-name': 'bot-move'})
+Pconf.defaults({
+    'bot-move-topic-name': 'bot-move',
+    "bot-speak-topic-name": 'bot-speak',
+    "bot-cam-topic-name": 'cam-command'
+})
 Pconf.file('dev.json', encoding='json')
 Pconf.env()
 
@@ -13,4 +17,7 @@ MQTT_USER = CONFIG.get("mqtt-user", '')
 MQTT_PWD = CONFIG.get("mqtt-pwd", '')
 MQTT_PORT = int(CONFIG.get("mqtt-port", -1))
 MQTT_MOTOR_MOVE_TOPIC_NAME = CONFIG.get("bot-move-topic-name", '')
+MQTT_SPEAK_TOPIC_NAME = CONFIG.get("bot-speak-topic-name", '')
+MQTT_CAM_TOPIC_NAME = CONFIG.get("bot-cam-topic-name", '')
+
 WEB_PORT = int(CONFIG.get("PORT", 5000))
