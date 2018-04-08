@@ -26,7 +26,7 @@ class CameraService(object):
         if msg["action"] == "stop":
             if not self.proc is None:
                 logging.debug("stoping cam...")
-                os.kill(self.proc.pid)
+                os.kill(self.proc.pid, signal.SIGINT)
                 # self.proc.send_signal(signal.CTRL_BREAK_EVENT)
                 self.proc = None
         else:  # assuming start...
