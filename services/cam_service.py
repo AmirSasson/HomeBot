@@ -19,28 +19,32 @@ class CameraService(object):
             shlex.split("modprobe bcm2835-v4l2"), stdout=subprocess.PIPE)
 
     def act(self, msg):
-        """perform speaj"""
-        request_stream_url = msg["stream_url"]
-        logging.debug("acting CAM VID !!! -> " + str(request_stream_url))
-        params = "sudo -S ffmpeg -f v4l2 -framerate 25 -video_size 300x255 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 300x255 -b:v 1000k -bf 0 %(request_stream_url)s" % locals(
-        )
-
-        if (not self.stream_url == request_stream_url) and self.proc:
-            self.proc.terminate()
+        """perform cam stream.."""
+        if msg["action"] == "stop":
+            self.proc.kill()
             self.proc = None
-
-        if not (self.stream_url == request_stream_url and self.proc):
-            self.stream_url = request_stream_url
-            logging.debug("running ffmpeg " + params)
-
-            self.proc = subprocess.Popen(
-                shlex.split(params),
-                # shell=True,
-                # stdin=None,
-                stdout=subprocess.PIPE,
-                # stderr=None,
-                # universal_newlines=True,
-                # close_fds=True
+        else:  # assuming start...
+            request_stream_url = msg["stream_url"]
+            logging.debug("acting CAM VID !!! -> " + str(request_stream_url))
+            params = "sudo -S ffmpeg -f v4l2 -framerate 25 -video_size 300x255 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 300x255 -b:v 1000k -bf 0 %(request_stream_url)s" % locals(
             )
+
+            if (not self.stream_url == request_stream_url) and self.proc:
+                self.proc.terminate()
+                self.proc = None
+
+            if not (self.stream_url == request_stream_url and self.proc):
+                self.stream_url = request_stream_url
+                logging.debug("running ffmpeg " + params)
+
+                self.proc = subprocess.Popen(
+                    shlex.split(params),
+                    # shell=True,
+                    # stdin=None,
+                    stdout=subprocess.PIPE,
+                    # stderr=None,
+                    # universal_newlines=True,
+                    # close_fds=True
+                )
             #out, err = self.proc.communicate('rasberry\n')
             # ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://SOME-STREAM-SERVER/YOUR-SECRET
