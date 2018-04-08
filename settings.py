@@ -1,13 +1,15 @@
 """Application Config"""
+import os
 from pconf import Pconf
-import json
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 
 Pconf.defaults({
     'bot-move-topic-name': 'bot-move',
     "bot-speak-topic-name": 'bot-speak',
     "bot-cam-topic-name": 'cam-command'
 })
-Pconf.file('dev.json', encoding='json')
+localpath = os.path.join(DIR_PATH, 'dev.json').format()
+Pconf.file(localpath, encoding='json')
 Pconf.env()
 
 CONFIG = Pconf.get()
