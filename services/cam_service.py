@@ -25,7 +25,7 @@ class CameraService(object):
         if msg["action"] == "stop":
             if not self.proc is None:
                 logging.debug("stoping cam...")
-                self.proc.send_signal(signal.CTRL_C_EVENT)
+                self.proc.send_signal(signal.CTRL_BREAK_EVENT)
             self.proc = None
         else:  # assuming start...
             request_stream_url = msg["stream_url"]
