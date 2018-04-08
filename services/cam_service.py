@@ -30,7 +30,7 @@ class CameraService(object):
         else:  # assuming start...
             request_stream_url = msg["stream_url"]
             logging.debug("acting CAM VID !!! -> " + str(request_stream_url))
-            params = "sudo ffmpeg -f v4l2 -framerate 25 -video_size 300x255 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 300x255 -b:v 1000k -bf 0 %(request_stream_url)s" % locals(
+            params = "ffmpeg -f v4l2 -framerate 25 -video_size 300x255 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 300x255 -b:v 1000k -bf 0 %(request_stream_url)s" % locals(
             )
 
             if (not self.stream_url == request_stream_url) and self.proc:
@@ -46,7 +46,7 @@ class CameraService(object):
                     # shell=True,
                     # stdin=None,
                     stdout=subprocess.PIPE,
-                    # stderr=None,
+                    stderr=subprocess.PIPE,
                     # universal_newlines=True,
                     # close_fds=True
                 )
