@@ -22,7 +22,7 @@ class CameraService(object):
         """perform cam stream.."""
         logging.debug("CAM acting !!! -> " + str(msg))
         if msg["action"] == "stop":
-            if self.proc != None:
+            if not self.proc == None:
                 self.proc.terminate()
             self.proc = None
         else:  # assuming start...
