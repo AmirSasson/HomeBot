@@ -14,6 +14,10 @@ class CameraService(object):
         self.stream_url = ''
         self.proc = None
 
+        logging.debug("creating cam file..")
+        subprocess.Popen(
+            shlex.split("modprobe bcm2835-v4l2"), stdout=subprocess.PIPE)
+
     def act(self, msg):
         """perform speaj"""
         request_stream_url = msg["stream_url"]
