@@ -3,6 +3,7 @@ import logging
 import subprocess
 import shlex
 import signal
+import os
 
 
 # pylint: disable=too-few-public-methods
@@ -25,8 +26,9 @@ class CameraService(object):
         if msg["action"] == "stop":
             if not self.proc is None:
                 logging.debug("stoping cam...")
-                self.proc.send_signal(signal.CTRL_BREAK_EVENT)
-            self.proc = None
+                os.kill(self.proc.pid)
+                # self.proc.send_signal(signal.CTRL_BREAK_EVENT)
+                self.proc = None
         else:  # assuming start...
             request_stream_url = msg["stream_url"]
             logging.debug("acting CAM VID !!! -> " + str(request_stream_url))
