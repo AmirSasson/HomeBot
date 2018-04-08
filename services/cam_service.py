@@ -21,8 +21,9 @@ class CameraService(object):
     def act(self, msg):
         """perform cam stream.."""
         logging.debug("CAM acting !!! -> " + str(msg))
-        if msg["action"] == "stop" and self.proc != None:
-            self.proc.terminate()
+        if msg["action"] == "stop":
+            if self.proc != None:
+                self.proc.terminate()
             self.proc = None
         else:  # assuming start...
             request_stream_url = msg["stream_url"]
