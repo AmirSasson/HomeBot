@@ -15,6 +15,11 @@ class MqttClient:
     def __init__(self):
         self.mqttc = paho.Client()
         self.mqttc.on_message = self.on_message
+        self.registered_callbacks = {
+            Config.MQTT_MOTOR_MOVE_TOPIC_NAME: None,
+            Config.MQTT_SPEAK_TOPIC_NAME: None,
+            Config.MQTT_CAM_TOPIC_NAME: None,
+        }
         self.mqttc.username_pw_set(Config.MQTT_USER, Config.MQTT_PWD)
         self.callback = None
 
@@ -27,13 +32,15 @@ class MqttClient:
                 "Oops!  connection to '%s' couldn't be established",
                 Config.MQTT_HOST)
         self.mqttc.subscribe(Config.MQTT_MOTOR_MOVE_TOPIC_NAME)
+        self.mqttc.subscribe(Config.MQTT_SPEAK_TOPIC_NAME)
+        self.mqttc.subscribe(Config.MQTT_CAM_TOPIC_NAME)
 
     def startListen(self):
         self.mqttc.loop_forever()
 
-    def reg(self, onMsgCallback):
+    def reg(self, topic, onMsgCallback):
         """register a callback method to delegate when topic updated"""
-        self.callback = onMsgCallback
+        self.registered_callbacks[topic] = onMsgCallback
 
     def publish(self, topic: str, message: Msg):
         """Publishes a new message to a topic"""
@@ -43,5 +50,9 @@ class MqttClient:
     def on_message(self, client, userdata, message):
         """callback"""
         # self.callback("Got Message! " + datetime.datetime.now().strftime())
-        self.callback(json.loads(message.payload.decode("utf-8")))
+        topic = message.topic
+        if self.registered_callbacks[topic]:
+            self.registered_callbacks[topic](
+                json.loads(message.payload.decode("utf-8")))
+        # self.callback(json.loads(message.payload.decode("utf-8")))
         logging.info("got message!" + str(message) + str(userdata))
