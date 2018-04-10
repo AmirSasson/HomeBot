@@ -13,6 +13,7 @@
 - raspberry pi zero w
 - arduino car kit with 2 motors
 - Dual DC Stepper Motor Driver Contro (L9110S)
+- _optional_ 5mp RPI camera
 
 ## Circuit Diagram
 ![Circuit](https://github.com/AmirSasson/HomeBot/blob/dev/images/motors.png)
@@ -32,19 +33,12 @@ add a dev.json file with needed config or add environment variables on your PI
 ```
 
 ## RUN
-ssh to your RPI and run from the relevant folder run `python3 .`
+ssh to your RPI and run from the relevant folder run `sudo python3 .`
 
 
 ## optional (camera support)
-
+* enable the RPI camera with the `raspi-config` utility
+* connect the RPI camera (5mp/8mp)
 ```
 sudo rpi-update # to make sure the v4L2 drive is available.
-```
-
-```
-sudo modprobe bcm2835-v4l2` # to load it and create /dev/video0
-```
-
-```
-ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://SOME-STREAM-SERVER/YOUR-SECRET # to stream video to web api to be broadcast to web sockets
 ```
