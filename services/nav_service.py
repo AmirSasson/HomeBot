@@ -55,4 +55,4 @@ if __name__ == '__main__':
     #     sleep(1)
     NavService('bot-move')
     while True:
-        1 + 1
+        sleep(10)
