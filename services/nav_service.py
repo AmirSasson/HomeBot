@@ -5,6 +5,7 @@ from pyee import EventEmitter
 from time import sleep
 import threading
 MIN_DIST_CM = 10
+import math
 
 
 def set_interval(func, sec):
@@ -27,6 +28,7 @@ class NavService(object):
         self.event_emitter = event_emitter
         # https://www.bluetin.io/sensors/python-library-ultrasonic-hc-sr04/
         self.topic_motor = motor_topic
+        self.last_known_distance_cm = 0
 
         self.sensor = DistanceSensor(
             echo=24,
@@ -41,14 +43,15 @@ class NavService(object):
         # self.sensor.when_changed = self._dist_check
 
     def _dist_check(self):
-        print('Distance: ' + str(self.sensor.distance) + ' m')
-        dist_cm = self.sensor.distance * 100,
-        logging.info('Distance: %(dist_cm)f cm')
-        print('Distance: ' + str(dist_cm) + ' cm')
-        if int(dist_cm[0]) <= MIN_DIST_CM:
+        dist_cm = self.sensor.distance * 100
+        if math.fabs(self.last_known_distance_cm - dist_cm) > 3:
+            logging.info('Distance: %(dist_cm)s cm')
+        if (not self.last_known_distance_cm == dist_cm
+            ) and int(dist_cm[0]) <= MIN_DIST_CM:
             logging.info('Distance Sensor Stopping motor!!')
             stop_msg = {'speed_left': 0, 'speed_right': 0}
             self.event_emitter.emit(self.topic_motor, stop_msg)
+        self.last_known_distance_cm = dist_cm
 
 
 if __name__ == '__main__':
