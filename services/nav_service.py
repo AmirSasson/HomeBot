@@ -2,6 +2,7 @@
 import logging
 from gpiozero import DistanceSensor
 from pyee import EventEmitter
+from time import sleep
 
 MIN_DIST_CM = 5
 
@@ -33,3 +34,5 @@ class NavService(object):
 if __name__ == '__main__':
     print("initializing sonar sensor service!")
     NavService('bot-move')
+    while True:
+        sleep(1)
