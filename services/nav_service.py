@@ -45,7 +45,7 @@ class NavService(object):
     def _dist_check(self):
         dist_cm = self.sensor.distance * 100
         if math.fabs(self.last_known_distance_cm - dist_cm) > 3.0:
-            logging.info('Distance: %(dist_cm)s cm')
+            logging.info('Distance: %(dist_cm)s cm' % locals())
         if (self.last_known_distance_cm !=
                 dist_cm) and int(dist_cm) <= MIN_DIST_CM:
             logging.info('Distance Sensor Stopping motor!!')
