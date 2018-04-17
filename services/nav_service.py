@@ -28,7 +28,7 @@ class NavService(object):
         self.event_emitter = event_emitter
         # https://www.bluetin.io/sensors/python-library-ultrasonic-hc-sr04/
         self.topic_motor = motor_topic
-        self.last_known_distance_cm = 0
+        self.last_known_distance_cm = 0.0
 
         self.sensor = DistanceSensor(
             echo=24,
@@ -44,7 +44,7 @@ class NavService(object):
 
     def _dist_check(self):
         dist_cm = self.sensor.distance * 100
-        if math.fabs(self.last_known_distance_cm - dist_cm[0]) > 3:
+        if math.fabs(self.last_known_distance_cm - dist_cm) > 3.0:
             logging.info('Distance: %(dist_cm)s cm')
         if (self.last_known_distance_cm !=
                 dist_cm[0]) and int(dist_cm[0]) <= MIN_DIST_CM:
