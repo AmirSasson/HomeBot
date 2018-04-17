@@ -4,7 +4,7 @@ from gpiozero import DistanceSensor
 from pyee import EventEmitter
 from time import sleep
 import threading
-MIN_DIST_CM = 6
+MIN_DIST_CM = 10
 
 
 def set_interval(func, sec):
@@ -29,7 +29,11 @@ class NavService(object):
         self.topic_motor = motor_topic
 
         self.sensor = DistanceSensor(
-            echo=24, trigger=23, max_distance=1, threshold_distance=0.06)
+            echo=24,
+            trigger=23,
+            max_distance=1,
+            threshold_distance=0.1,
+            queue_len=5)
         set_interval(self._dist_check, 1)
         # self.sensor.when_activated = self._dist_check
         # self.sensor.when_out_of_range = self._dist_check
