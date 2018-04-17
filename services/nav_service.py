@@ -47,7 +47,7 @@ class NavService(object):
         if math.fabs(self.last_known_distance_cm - dist_cm) > 3.0:
             logging.info('Distance: %(dist_cm)s cm')
         if (self.last_known_distance_cm !=
-                dist_cm[0]) and int(dist_cm[0]) <= MIN_DIST_CM:
+                dist_cm) and int(dist_cm[0]) <= MIN_DIST_CM:
             logging.info('Distance Sensor Stopping motor!!')
             stop_msg = {'speed_left': 0, 'speed_right': 0}
             self.event_emitter.emit(self.topic_motor, stop_msg)
