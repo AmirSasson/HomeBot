@@ -3,7 +3,18 @@ import logging
 from gpiozero import DistanceSensor
 from pyee import EventEmitter
 from time import sleep
+import threading
 MIN_DIST_CM = 6
+
+
+def set_interval(func, sec):
+    def func_wrapper():
+        set_interval(func, sec)
+        func()
+
+    t = threading.Timer(sec, func_wrapper)
+    t.start()
+    return t
 
 
 # pylint: disable=too-few-public-methods
@@ -19,9 +30,10 @@ class NavService(object):
 
         self.sensor = DistanceSensor(
             echo=24, trigger=23, max_distance=1, threshold_distance=0.06)
-        self.sensor.when_activated = self._dist_check
-        self.sensor.when_out_of_range = self._dist_check
-        self._dist_check()
+        set_interval(self._dist_check, 1)
+        # self.sensor.when_activated = self._dist_check
+        # self.sensor.when_out_of_range = self._dist_check
+        # self._dist_check()
         # self.sensor.when_changed = self._dist_check
 
     def _dist_check(self):
