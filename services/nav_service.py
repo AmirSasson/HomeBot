@@ -25,8 +25,8 @@ class NavService(object):
     def _dist_check(self):
         dist_cm = self.sensor.distance * 100,
         logging.info('Distance: %(dist_cm)f cm')
-        print('Distance: ' + str(dist_cm) + ' cm')
-        if dist_cm <= MIN_DIST_CM:
+        print('Distance: ' + str(dist_cm[0]) + ' cm')
+        if int(dist_cm[0]) <= MIN_DIST_CM:
             logging.info('Distance Sensor Stopping motor!!')
             stop_msg = {'speed_left': 0, 'speed_right': 0}
             self.event_emitter.emit(self.topic_motor, stop_msg)
