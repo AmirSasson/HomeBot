@@ -15,11 +15,11 @@ class NavService(object):
         logging.debug("initializing Speak Service!")
         self.event_emitter = event_emitter
         # https://www.bluetin.io/sensors/python-library-ultrasonic-hc-sr04/
-        self.sensor = None
         self.topic_motor = motor_topic
 
         self.sensor = DistanceSensor(echo=24, trigger=23, queue_len=2)
-        self.sensor.when_changed(self._dist_check)
+        self.sensor.when_in_range(self._dist_check)
+        self.sensor.when_out_of_range(self._dist_check)
 
     def _dist_check(self):
         dist_cm = self.sensor.distance * 100,
