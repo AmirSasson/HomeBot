@@ -51,7 +51,7 @@ class NavService(object):
             logging.info('Distance Sensor Stopping motor!!')
             stop_msg = {'speed_left': 0, 'speed_right': 0}
             self.event_emitter.emit(self.topic_motor, stop_msg)
-        self.last_known_distance_cm = dist_cm[0]
+        self.last_known_distance_cm = dist_cm
 
 
 if __name__ == '__main__':
