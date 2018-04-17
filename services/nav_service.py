@@ -24,6 +24,7 @@ class NavService(object):
         # self.sensor.when_changed = self._dist_check
 
     def _dist_check(self):
+        print('Distance: ' + str(self.sensor.distance) + ' m')
         dist_cm = self.sensor.distance * 100,
         logging.info('Distance: %(dist_cm)f cm')
         print('Distance: ' + str(dist_cm) + ' cm')
