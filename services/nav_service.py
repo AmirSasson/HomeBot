@@ -32,7 +32,7 @@ class NavService(object):
             echo=24,
             trigger=23,
             max_distance=1,
-            threshold_distance=0.1,
+            threshold_distance=0.05,
             queue_len=5)
         set_interval(self._dist_check, 1)
         # self.sensor.when_activated = self._dist_check
