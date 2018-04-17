@@ -1,18 +1,20 @@
-"""FB Service Module"""
+"""Camera stream Service Module"""
 import logging
-import subprocess
+import os
 import shlex
 import signal
-import os
+import subprocess
+from pyee import EventEmitter
 
 
 # pylint: disable=too-few-public-methods
 class CameraService(object):
     """SpeakService"""
 
-    def __init__(self):
+    def __init__(self, topic, event_emitter=EventEmitter()):
         # self.graph = facebook.GraphAPI(Config.PAGE_ACCESS_TOKEN)
         logging.debug("initializing video Service!")
+        event_emitter.on(topic, self.act)
         self.stream_url = ''
         self.proc = None
 
@@ -32,7 +34,9 @@ class CameraService(object):
         else:  # assuming start...
             request_stream_url = msg["stream_url"]
             logging.debug("acting CAM VID !!! -> " + str(request_stream_url))
-            params = "ffmpeg -f v4l2 -framerate 25 -video_size 300x255 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 300x255 -b:v 1000k -bf 0 %(request_stream_url)s" % locals(
+            #pylint: disable=unused-argument
+            video_size = "300x255"
+            params = "ffmpeg -f v4l2 -framerate 25 -video_size %(video_size)s -i /dev/video0 -f mpegts -codec:v mpeg1video -s %(video_size)s -b:v 1000k -bf 0 %(request_stream_url)s" % locals(
             )
 
             if (not self.stream_url == request_stream_url) and self.proc:
@@ -53,4 +57,3 @@ class CameraService(object):
                     # close_fds=True
                 )
             #out, err = self.proc.communicate('rasberry\n')
-            # ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://SOME-STREAM-SERVER/YOUR-SECRET

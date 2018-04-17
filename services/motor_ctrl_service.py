@@ -1,18 +1,18 @@
-"""FB Service Module"""
+"""Motor Service Module"""
 import logging
-import settings as Config
-from gpiozero import Motor
-import time
 import math
+import time
+
+from gpiozero import Motor
+from pyee import EventEmitter
 
 
-# pylint: disable=too-few-public-methods
 class MotorCtrlService(object):
     """FB Service"""
 
-    def __init__(self):
-        # self.graph = facebook.GraphAPI(Config.PAGE_ACCESS_TOKEN)
+    def __init__(self, topic, event_emitter=EventEmitter()):
         logging.debug("initializing motor control!")
+        event_emitter.on(topic, self.act)
         self.motor_right = Motor(17, 18)
         self.motor_left = Motor(6, 12)
         self.start()
