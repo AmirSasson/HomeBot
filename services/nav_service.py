@@ -18,10 +18,7 @@ class NavService(object):
         self.topic_motor = motor_topic
 
         self.sensor = DistanceSensor(
-            echo=24,
-            trigger=23,
-            queue_len=2,
-            threshold=0.01, )
+            echo=24, trigger=23, queue_len=2, threshold=0.01)
         self.sensor.when_activated = self._dist_check
         self.sensor.when_out_of_range = self._dist_check
 
