@@ -21,6 +21,7 @@ class NavService(object):
             echo=24, trigger=23, max_distance=1, threshold_distance=0.06)
         self.sensor.when_activated = self._dist_check
         self.sensor.when_out_of_range = self._dist_check
+        self._dist_check()
         # self.sensor.when_changed = self._dist_check
 
     def _dist_check(self):
@@ -36,6 +37,10 @@ class NavService(object):
 
 if __name__ == '__main__':
     print("initializing sonar sensor service!")
-    NavService('bot-move')
+    sensor1 = DistanceSensor(echo=24, trigger=23)
     while True:
+        print('Distance: ', sensor1.distance * 100)
         sleep(1)
+    # NavService('bot-move')
+    # while True:
+    #     sleep(1)
