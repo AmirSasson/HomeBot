@@ -2,7 +2,7 @@
 import logging
 from gpiozero import DistanceSensor
 from pyee import EventEmitter
-
+from time import sleep
 MIN_DIST_CM = 5
 
 
