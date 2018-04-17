@@ -3,7 +3,7 @@ import logging
 from gpiozero import DistanceSensor
 from pyee import EventEmitter
 from time import sleep
-MIN_DIST_CM = 5
+MIN_DIST_CM = 6
 
 
 # pylint: disable=too-few-public-methods
@@ -18,7 +18,7 @@ class NavService(object):
         self.topic_motor = motor_topic
 
         self.sensor = DistanceSensor(
-            echo=24, trigger=23, max_distance=2, threshold_distance=0.1)
+            echo=24, trigger=23, max_distance=1, threshold_distance=0.06)
         self.sensor.when_activated = self._dist_check
         self.sensor.when_out_of_range = self._dist_check
         # self.sensor.when_changed = self._dist_check
