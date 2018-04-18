@@ -37,8 +37,6 @@ class NavService(object):
         #     max_distance=1,
         #     threshold_distance=0.05,
         #     queue_len=5)
-
-        self.sensor = sensor.Measurement(23, 24)
         set_interval(self._dist_check, 1)
         # self.sensor.when_activated = self._dist_check
         # self.sensor.when_out_of_range = self._dist_check
@@ -46,7 +44,8 @@ class NavService(object):
         # self.sensor.when_changed = self._dist_check
 
     def _dist_check(self):
-        dist_cm = self.sensor.raw_distance()
+        dist_sensor = sensor.Measurement(23, 24)
+        dist_cm = dist_sensor.raw_distance()
         print('Distance: %(dist_cm)s cm' % locals())
         if math.fabs(self.last_known_distance_cm - dist_cm) > 3.0:
             logging.info('Distance: %(dist_cm)s cm' % locals())
