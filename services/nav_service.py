@@ -4,8 +4,9 @@ from gpiozero import DistanceSensor
 from pyee import EventEmitter
 from time import sleep
 import threading
-MIN_DIST_CM = 10
 import math
+from hcsr04sensor import sensor
+MIN_DIST_CM = 10
 
 
 def set_interval(func, sec):
@@ -30,12 +31,14 @@ class NavService(object):
         self.topic_motor = motor_topic
         self.last_known_distance_cm = 0.0
 
-        self.sensor = DistanceSensor(
-            echo=24,
-            trigger=23,
-            max_distance=1,
-            threshold_distance=0.05,
-            queue_len=5)
+        # self.sensor = DistanceSensor(
+        #     echo=24,
+        #     trigger=23,
+        #     max_distance=1,
+        #     threshold_distance=0.05,
+        #     queue_len=5)
+
+        self.sensor = sensor.Measurement(23, 24)
         set_interval(self._dist_check, 1)
         # self.sensor.when_activated = self._dist_check
         # self.sensor.when_out_of_range = self._dist_check
@@ -43,7 +46,8 @@ class NavService(object):
         # self.sensor.when_changed = self._dist_check
 
     def _dist_check(self):
-        dist_cm = self.sensor.distance * 100
+        dist_cm = self.sensor.raw_distance()
+        print('Distance: %(dist_cm)s cm' % locals())
         if math.fabs(self.last_known_distance_cm - dist_cm) > 3.0:
             logging.info('Distance: %(dist_cm)s cm' % locals())
         if (dist_cm <
@@ -57,15 +61,16 @@ class NavService(object):
 
 if __name__ == '__main__':
     print("initializing sonar sensor service!")
-    sensor1 = DistanceSensor(
-        echo=24,
-        trigger=23,
-        threshold_distance=0.001,
-        partial=True,
-        queue_len=30)
-    sleep(2)
+    # sensor1 = DistanceSensor(
+    #     echo=24,
+    #     trigger=23,
+    #     threshold_distance=0.001,
+    #     partial=True,
+    #     queue_len=30)
+    # sleep(2)
+    NavService("")
     while True:
-        print('Distance: ', sensor1.distance * 100)
+        #    print('Distance: ', sensor1.distance * 100)
         sleep(1)
     # NavService('bot-move')
     # while True:
