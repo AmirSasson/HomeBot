@@ -57,7 +57,7 @@ class NavService(object):
 
 if __name__ == '__main__':
     print("initializing sonar sensor service!")
-    sensor1 = DistanceSensor(echo=24, trigger=23)
+    sensor1 = DistanceSensor(echo=24, trigger=23, threshold_distance=0.01)
     while True:
         print('Distance: ', sensor1.distance * 100)
         sleep(1)
