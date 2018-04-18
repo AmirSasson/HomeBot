@@ -57,10 +57,10 @@ class NavService(object):
 
 if __name__ == '__main__':
     print("initializing sonar sensor service!")
-    # sensor1 = DistanceSensor(echo=24, trigger=23)
-    # while True:
-    #     print('Distance: ', sensor1.distance * 100)
-    #     sleep(1)
-    NavService('bot-move')
+    sensor1 = DistanceSensor(echo=24, trigger=23)
     while True:
-        sleep(10)
+        print('Distance: ', sensor1.distance * 100)
+        sleep(1)
+    # NavService('bot-move')
+    # while True:
+    #     sleep(10)
