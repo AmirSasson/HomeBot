@@ -62,10 +62,11 @@ class NavService(object):
     def _dist_check(self):
         # sensor.Measurement(23, 24) dist_sensor.raw_distance()
         dist_cm = self._get_dist()
-        print('Distance: %(dist_cm)s cm' % locals())
-        if math.fabs(self.last_known_distance_cm - dist_cm) > 3.0:
+        logging.debug('Distance: %(dist_cm)s cm' % locals())
+        route_passed = math.fabs(self.last_known_distance_cm - dist_cm)
+        if route_passed > 3.0:
             logging.info('Distance: %(dist_cm)s cm' % locals())
-        if (dist_cm <
+        if (route_passed > 2 and dist_cm <
                 self.last_known_distance_cm  # obsetacale getting closer...
             ) and int(dist_cm) <= MIN_DIST_CM:
             logging.info('Distance Sensor Stopping motor!!')

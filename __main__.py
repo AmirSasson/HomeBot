@@ -11,7 +11,7 @@ from services.speak_service import SpeakService
 from services.mqtt_client import MqttClient
 from services.nav_service import NavService
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 EE = EventEmitter()
 
 MQTTC = MqttClient([
