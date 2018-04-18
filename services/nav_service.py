@@ -62,7 +62,7 @@ if __name__ == '__main__':
         trigger=23,
         threshold_distance=0.001,
         partial=True,
-        queue_len=1)
+        queue_len=30)
     sleep(2)
     while True:
         print('Distance: ', sensor1.distance * 100)
