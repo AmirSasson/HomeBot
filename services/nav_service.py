@@ -2,11 +2,11 @@
 import logging
 from gpiozero import DistanceSensor
 from pyee import EventEmitter
-from time import sleep
+from time import sleep, time
 import threading
 import math
-from hcsr04sensor import sensor
 MIN_DIST_CM = 10
+import RPi.GPIO as GPIO
 
 
 def set_interval(func, sec):
@@ -17,6 +17,10 @@ def set_interval(func, sec):
     t = threading.Timer(sec, func_wrapper)
     t.start()
     return t
+
+
+TRIG = 23
+ECHO = 24
 
 
 # pylint: disable=too-few-public-methods
@@ -31,6 +35,14 @@ class NavService(object):
         self.topic_motor = motor_topic
         self.last_known_distance_cm = 0.0
 
+        GPIO.setmode(GPIO.BCM)
+
+        GPIO.setup(TRIG, GPIO.OUT)
+        GPIO.setup(ECHO, GPIO.IN)
+
+        GPIO.output(TRIG, False)
+        sleep(2)
+
         # self.sensor = DistanceSensor(
         #     echo=24,
         #     trigger=23,
@@ -44,8 +56,8 @@ class NavService(object):
         # self.sensor.when_changed = self._dist_check
 
     def _dist_check(self):
-        dist_sensor = sensor.Measurement(23, 24)
-        dist_cm = dist_sensor.raw_distance()
+        # sensor.Measurement(23, 24) dist_sensor.raw_distance()
+        dist_cm = self._get_dist()
         print('Distance: %(dist_cm)s cm' % locals())
         if math.fabs(self.last_known_distance_cm - dist_cm) > 3.0:
             logging.info('Distance: %(dist_cm)s cm' % locals())
@@ -56,6 +68,33 @@ class NavService(object):
             stop_msg = {'speed_left': 0, 'speed_right': 0}
             self.event_emitter.emit(self.topic_motor, stop_msg)
         self.last_known_distance_cm = dist_cm
+
+    def _get_dist2(self):
+        dist_sensor = sensor.Measurement(TRIG, ECHO)
+        dist = dist_sensor.raw_distance()
+        GPIO.cleanup()
+        return dist
+
+    def _get_dist(self):
+
+        GPIO.output(TRIG, True)
+        sleep(0.00001)
+        GPIO.output(TRIG, False)
+
+        while GPIO.input(ECHO) == 0:
+            pulse_start = time()
+
+        while GPIO.input(ECHO) == 1:
+            pulse_end = time()
+
+        pulse_duration = pulse_end - pulse_start
+
+        distance = pulse_duration * 17150
+
+        distance = round(distance, 2)
+
+        #GPIO.cleanup()
+        return distance
 
 
 if __name__ == '__main__':
