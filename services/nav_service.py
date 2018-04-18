@@ -9,20 +9,9 @@ from pyee import EventEmitter
 
 import RPi.GPIO as GPIO
 from hcsr04sensor import sensor
+from common.set_interval import set_interval
 
-MIN_DIST_CM = 10
-
-
-def set_interval(func, sec):
-    def func_wrapper():
-        set_interval(func, sec)
-        func()
-
-    t = threading.Timer(sec, func_wrapper)
-    t.start()
-    return t
-
-
+MIN_DIST_CM = 5
 TRIG = 23
 ECHO = 24
 
@@ -39,13 +28,7 @@ class NavService(object):
         self.topic_motor = motor_topic
         self.last_known_distance_cm = 0.0
 
-        GPIO.setmode(GPIO.BCM)
-
-        GPIO.setup(TRIG, GPIO.OUT)
-        GPIO.setup(ECHO, GPIO.IN)
-
-        GPIO.output(TRIG, False)
-        sleep(2)
+        self._initialuze_sensor()
 
         # self.sensor = DistanceSensor(
         #     echo=24,
@@ -58,6 +41,14 @@ class NavService(object):
         # self.sensor.when_out_of_range = self._dist_check
         # self._dist_check()
         # self.sensor.when_changed = self._dist_check
+    def _initialuze_sensor(self):
+        GPIO.setmode(GPIO.BCM)
+
+        GPIO.setup(TRIG, GPIO.OUT)
+        GPIO.setup(ECHO, GPIO.IN)
+
+        GPIO.output(TRIG, False)
+        sleep(2)
 
     def _dist_check(self):
         # sensor.Measurement(23, 24) dist_sensor.raw_distance()
