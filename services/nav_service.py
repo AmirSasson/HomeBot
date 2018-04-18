@@ -1,12 +1,16 @@
 """Navigation Service Module"""
 import logging
+import math
+import threading
+from time import sleep, time
+
 from gpiozero import DistanceSensor
 from pyee import EventEmitter
-from time import sleep, time
-import threading
-import math
-MIN_DIST_CM = 10
+
 import RPi.GPIO as GPIO
+from hcsr04sensor import sensor
+
+MIN_DIST_CM = 10
 
 
 def set_interval(func, sec):
