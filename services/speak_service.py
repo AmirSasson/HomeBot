@@ -25,7 +25,7 @@ class SpeakService(object):
         logging.debug("acting speak!!! -> " + str(msg["msg"]))
         who = msg["by"]
         what = msg["msg"]
-        greet = '%(who)s Says: ' % locals()
+        greet = '%(who)s says.  .' % locals()
         if self.last_speaker == who:
             greet = ''
         elif self.last_speaker == 'bot':
