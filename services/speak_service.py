@@ -1,6 +1,8 @@
 """speaking Service Module"""
 import logging
 import settings as Config
+from time import sleep, time
+
 # from gpiozero import Motor
 import time
 import math
@@ -30,3 +32,20 @@ class SpeakService(object):
             stdout=None,
             stderr=None,
             close_fds=True)
+
+
+if __name__ == '__main__':
+    print("Testing espeak")
+    # sensor1 = DistanceSensor(
+    #     echo=24,
+    #     trigger=23,
+    #     threshold_distance=0.001,
+    #     partial=True,
+    #     queue_len=30)
+    # sleep(2)
+    ss = SpeakService("")
+
+    while True:
+        #    print('Distance: ', sensor1.distance * 100)
+        sleep(2)
+        ss.act({'msg': "hello", 'by': "test"})
