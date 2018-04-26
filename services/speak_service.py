@@ -23,7 +23,8 @@ class SpeakService(object):
         logging.debug("acting speak!!! -> " + str(msg["msg"]))
         who = msg["by"]
         what = msg["msg"]
-        text = '"%(who)s says, %(what)s"' % locals()
+        text = '"%(who)s Says: %(what)s"' % locals()
+        params = 'espeak -s 150 -a 100 -k 50 %(text)s'
         subprocess.Popen(
             ["espeak", text],
             # shell=True,
@@ -53,5 +54,5 @@ if __name__ == '__main__':
 
     while True:
         #    print('Distance: ', sensor1.distance * 100)
-        sleep(2)
-        ss.act({'msg': "hello", 'by': "test"})
+        sleep(10)
+        ss.act({'msg': "hello", 'by': "Test user"})
