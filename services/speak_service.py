@@ -24,8 +24,8 @@ class SpeakService(object):
         logging.debug("acting speak!!! -> " + str(msg["msg"]))
         who = msg["by"]
         what = msg["msg"]
-        text = '"%(who)s Says: %(what)s"' % locals()
-        params = 'espeak -s 135 -a 100 -k 50 -p 30 %(text)s'
+        text = '%(who)s Says: %(what)s' % locals()
+        params = 'espeak -s 135 -a 100 -k 50 -p 30 "%(text)s"' % locals()
         subprocess.Popen(
             shlex.split(params),
             # shell=True,
