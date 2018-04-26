@@ -23,14 +23,21 @@ class SpeakService(object):
         logging.debug("acting speak!!! -> " + str(msg["msg"]))
         who = msg["by"]
         what = msg["msg"]
-        text = "%(who)s says, %(what)s" % locals()
+        text = '"%(who)s says, %(what)s"' % locals()
         subprocess.Popen(
             ["espeak", text],
-            shell=True,
-            stdin=None,
-            stdout=None,
-            stderr=None,
-            close_fds=True)
+            # shell=True,
+            # stdin=None,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            # universal_newlines=True,
+            # close_fds=True
+            # shell=True,
+            # stdin=None,
+            # stdout=None,
+            # stderr=None,
+            # close_fds=True
+        )
 
 
 if __name__ == '__main__':
