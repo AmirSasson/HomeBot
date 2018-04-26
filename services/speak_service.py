@@ -1,6 +1,5 @@
 """speaking Service Module"""
 import logging
-import settings as Config
 from time import sleep, time
 
 # from gpiozero import Motor
