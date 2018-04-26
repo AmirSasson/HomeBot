@@ -22,6 +22,6 @@ MQTTC = MqttClient([
 MotorCtrlService(Config.MQTT_MOTOR_MOVE_TOPIC_NAME, EE)
 SpeakService(Config.MQTT_SPEAK_TOPIC_NAME, EE)
 CameraService(Config.MQTT_CAM_TOPIC_NAME, EE)
-NavService(Config.MQTT_MOTOR_MOVE_TOPIC_NAME, EE)
+NavService(Config.MQTT_MOTOR_MOVE_TOPIC_NAME, Config.MQTT_SPEAK_TOPIC_NAME, EE)
 
 MQTTC.start_listen()

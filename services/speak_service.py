@@ -26,7 +26,7 @@ class SpeakService(object):
         who = msg["by"]
         what = msg["msg"]
         greet = '%(who)s says.  .' % locals()
-        if self.last_speaker == who:
+        if self.last_speaker == who or who == 'system':
             greet = ''
         elif self.last_speaker == 'bot':
             greet = 'Guys :'
