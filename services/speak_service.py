@@ -18,13 +18,20 @@ class SpeakService(object):
         # self.graph = facebook.GraphAPI(Config.PAGE_ACCESS_TOKEN)
         logging.debug("initializing Speak Service!")
         event_emitter.on(topic, self.act)
+        self.last_speaker = None
 
     def act(self, msg):
         """perform speak"""
         logging.debug("acting speak!!! -> " + str(msg["msg"]))
         who = msg["by"]
         what = msg["msg"]
-        text = '%(who)s Says: %(what)s' % locals()
+        greet = '%(who)s Says: ' % locals()
+        if self.last_speaker == who:
+            greet = ''
+        elif self.last_speaker == 'bot':
+            greet = 'Guys :'
+        text = '%(greet)s %(what)s' % locals()
+        self.last_speaker = who
         params = 'espeak -s 135 -a 100 -k 50 -p 30 "%(text)s"' % locals()
         subprocess.Popen(
             shlex.split(params),
